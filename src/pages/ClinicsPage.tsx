@@ -233,7 +233,7 @@ const ClinicsPage: React.FC = () => {
     
     // Apply emergency filter
     if (showEmergencyOnly) {
-      filtered = filtered.filter(clinic => clinic.hasEmergencyService);
+      filtered = filtered.filter(clinic => clinic.has_emergency_service);
     }
     
     setFilteredClinics(filtered);

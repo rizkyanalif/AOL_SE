@@ -43,70 +43,70 @@ const CampusSelector: React.FC = () => {
   }, []);
   
   // Placeholder data for development
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development' && campuses.length === 0) {
-      const placeholderCampuses: Campus[] = [
-        {
-          id: 1,
-          name: 'BINUS Anggrek Campus',
-          address: 'Jl. Kebon Jeruk Raya No. 27, Kebon Jeruk',
-          city: 'Jakarta',
-          latitude: -6.201820,
-          longitude: 106.782352,
-          image: '/images/binus1.jpg'
-        },
-        {
-          id: 2,
-          name: 'BINUS Syahdan Campus',
-          address: 'Jl. K.H. Syahdan No. 9, Palmerah',
-          city: 'Jakarta',
-          latitude: -6.200462,
-          longitude: 106.785102,
-          image: '/images/binus2.jpg'
-        },
-        {
-          id: 3,
-          name: 'BINUS Alam Sutera Campus',
-          address: 'Jl. Jalur Sutera Barat Kav. 21, Alam Sutera',
-          city: 'Tangerang',
-          latitude: -6.224335,
-          longitude: 106.649177,
-          image: '/images/binus3.jpg'
-        },
-        {
-          id: 4,
-          name: 'BINUS Bandung Campus',
-          address: 'Jl. Pasir Kaliki No. 25-27, Cicendo',
-          city: 'Bandung',
-          latitude: -6.914744,
-          longitude: 107.602680,
-          image: '/images/binus4.jpg'
-        },
-        {
-          id: 5,
-          name: 'BINUS Bekasi Campus',
-          address: 'Summarecon Bekasi, Jl. Boulevard Ahmad Yani Blok M',
-          city: 'Bekasi',
-          latitude: -6.226107,
-          longitude: 107.000183,
-          image: '/images/binus5.jpg'
-        },
-        {
-          id: 6,
-          name: 'BINUS Kijang Campus',
-          address: 'Jl. Kemanggisan Ilir III No.45, Kemanggisan',
-          city: 'Jakarta',
-          latitude: -6.226107,
-          longitude: 106.800183,
-          image: '/images/binus6.jpg'
-        },
-      ];
+  // useEffect(() => {
+  //   if (process.env.NODE_ENV === 'development' && campuses.length === 0) {
+  //     const placeholderCampuses: Campus[] = [
+  //       {
+  //         id: 1,
+  //         name: 'BINUS Anggrek Campus',
+  //         address: 'Jl. Kebon Jeruk Raya No. 27, Kebon Jeruk',
+  //         city: 'Jakarta',
+  //         latitude: -6.201820,
+  //         longitude: 106.782352,
+  //         image: '/images/binus1.jpg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'BINUS Syahdan Campus',
+  //         address: 'Jl. K.H. Syahdan No. 9, Palmerah',
+  //         city: 'Jakarta',
+  //         latitude: -6.200462,
+  //         longitude: 106.785102,
+  //         image: '/images/binus2.jpg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'BINUS Alam Sutera Campus',
+  //         address: 'Jl. Jalur Sutera Barat Kav. 21, Alam Sutera',
+  //         city: 'Tangerang',
+  //         latitude: -6.224335,
+  //         longitude: 106.649177,
+  //         image: '/images/binus3.jpg'
+  //       },
+  //       {
+  //         id: 4,
+  //         name: 'BINUS Bandung Campus',
+  //         address: 'Jl. Pasir Kaliki No. 25-27, Cicendo',
+  //         city: 'Bandung',
+  //         latitude: -6.914744,
+  //         longitude: 107.602680,
+  //         image: '/images/binus4.jpg'
+  //       },
+  //       {
+  //         id: 5,
+  //         name: 'BINUS Bekasi Campus',
+  //         address: 'Summarecon Bekasi, Jl. Boulevard Ahmad Yani Blok M',
+  //         city: 'Bekasi',
+  //         latitude: -6.226107,
+  //         longitude: 107.000183,
+  //         image: '/images/binus5.jpg'
+  //       },
+  //       {
+  //         id: 6,
+  //         name: 'BINUS Kijang Campus',
+  //         address: 'Jl. Kemanggisan Ilir III No.45, Kemanggisan',
+  //         city: 'Jakarta',
+  //         latitude: -6.226107,
+  //         longitude: 106.800183,
+  //         image: '/images/binus6.jpg'
+  //       },
+  //     ];
       
-      setCampuses(placeholderCampuses);
-      setSelectedCity('Jakarta');
-      setIsLoading(false);
-    }
-  }, [campuses.length]);
+  //     setCampuses(placeholderCampuses);
+  //     setSelectedCity('Jakarta');
+  //     setIsLoading(false);
+  //   }
+  // }, [campuses.length]);
   
   const cities = [...new Set(campuses.map(campus => campus.city))];
   const filteredCampuses = campuses.filter(campus => campus.city === selectedCity);

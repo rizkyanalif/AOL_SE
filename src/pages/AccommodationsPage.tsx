@@ -1,223 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin } from 'lucide-react';
+import { Filter, MapPin } from 'lucide-react';
 import AppHeader from '../components/layout/AppHeader';
 import AppFooter from '../components/layout/AppFooter';
 import AccommodationFilters from '../components/accommodation/AccommodationFilters';
 import AccommodationCard from '../components/accommodation/AccommodationCard';
 import { Accommodation, Campus } from '../types';
+import { fetchAccommodations } from '../lib/supabase';
 
 const AccommodationsPage: React.FC = () => {
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const [filteredAccommodations, setFilteredAccommodations] = useState<Accommodation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
 
+
   useEffect(() => {
-    const campusData = localStorage.getItem('selectedCampus');
+    const loadAccommodations = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        const campusData = localStorage.getItem('selectedCampus');
+        let campus: Campus | null = null;
+        if (campusData) {
+          campus = JSON.parse(campusData);
+          setSelectedCampus(campus);
+        }
+        const { data, error } = await fetchAccommodations({campusId: campus?.id});
 
-    // Placeholder data
-    const placeholderAccommodations: Accommodation[] = [
-      {
-        id: 1,
-        name: "Kost Singgahsini",
-        address: "Jl. Kebon Jeruk Raya No. 35, Jakarta Barat",
-        distance: 0.5,
-        campusId: 1,
-        price: 3000000,
-        gender: "male",
-        hasAC: true,
-        hasPrivateBathroom: true,
-        hasFurnishedBed: true,
-        hasWifi: true,
-        hasParking: true,
-        images: ['/images/kost3.jpg'],
-        description: "Clean and comfortable kost...",
-        rules: ["No smoking", "No pets"],
-        facilities: ["AC", "Private Bathroom"],
-        benefits: ["Close to campus"],
-        rating: 4.5,
-        reviewCount: 28,
-        latitude: -6.201920,
-        longitude: 106.783352,
-        hasPromotion: true,
-        promotionDetails: "10% off first month",
-        availability: 3
-      },
-      {
-        id: 2,
-        name: "Kost Averio",
-        address: "Jl. Palmerah Barat No. 12, Jakarta Barat",
-        distance: 0.8,
-        campusId: 1,
-        price: 2500000,
-        gender: "female",
-        hasAC: true,
-        hasPrivateBathroom: false,
-        hasFurnishedBed: true,
-        hasWifi: true,
-        hasParking: false,
-        images: ['/images/kost2.jpg'],
-        description: "Female-only kost...",
-        rules: ["Female only", "No smoking"],
-        facilities: ["AC", "Shared Bathroom"],
-        benefits: ["Close to campus"],
-        rating: 4.2,
-        reviewCount: 15,
-        latitude: -6.202462,
-        longitude: 106.786102,
-        hasPromotion: false,
-        availability: 2
-      },
-      {
-        id: 3,
-        name: "Kost Sejahtera",
-        address: "Jl. Rawa Belong No. 45, Jakarta Barat",
-        distance: 1.2,
-        campusId: 2,
-        price: 2100000,
-        gender: "mixed",
-        hasAC: true,
-        hasPrivateBathroom: true,
-        hasFurnishedBed: true,
-        hasWifi: true,
-        hasParking: true,
-        images: [
-          "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg",
-          "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg"
-        ],
-        description: "Modern kost...",
-        rules: ["No smoking inside rooms"],
-        facilities: ["AC", "Private Bathroom"],
-        benefits: ["Near restaurants"],
-        rating: 4.7,
-        reviewCount: 32,
-        latitude: -6.199462,
-        longitude: 106.783102,
-        hasPromotion: true,
-        promotionDetails: "Free first week",
-        availability: 5
-      },
-      {
-    id: 1,
-    name: "Kost Melati",
-    address: "Jl. Cisitu Lama No. 21, Bandung",
-    distance: 0.4,
-    campusId: 4,
-    price: 1500000,
-    gender: "female",
-    hasAC: false,
-    hasPrivateBathroom: false,
-    hasFurnishedBed: true,
-    hasWifi: true,
-    hasParking: false,
-    images: ["https://images.pexels.com/photos/271743/pexels-photo-271743.jpeg"],
-    description: "Kost putri dekat Binus dengan suasana asri.",
-    rules: ["No smoking", "No pets"],
-    facilities: ["Wifi", "Kasur", "Kipas Angin"],
-    benefits: ["Dekat kampus", "Lingkungan tenang"],
-    rating: 4.5,
-    reviewCount: 23,
-    latitude: -6.8902,
-    longitude: 107.6108,
-    hasPromotion: true,
-    availability: 3
-  },
-      
-  {
-    id: 5,
-    name: "Kost Cikokol",
-    address: "Jl. Sutera Indah No. 10, Alam Sutera",
-    distance: 0.5,
-    campusId: 3,
-    price: 2700000,
-    gender: "female",
-    hasAC: true,
-    hasPrivateBathroom: true,
-    hasFurnishedBed: true,
-    hasWifi: true,
-    hasParking: true,
-    images: ["/images/kostalsut1.jpg"],
-    description: "Kost eksklusif untuk putri, dekat mall dan kampus.",
-    rules: ["No male guests", "No smoking"],
-    facilities: ["AC", "Kamar Mandi Dalam", "Furnished", "Wifi"],
-    benefits: ["Dekat kampus", "Dekat mall", "Akses 24 jam"],
-    rating: 4.6,
-    reviewCount: 25,
-    latitude: -6.2245,
-    longitude: 106.6537,
-    hasPromotion: true,
-    availability: 3
-  },
-  {
-    id: 6,
-    name: "Kost Kencana Bekasi",
-    address: "Jl. Raya Galaxy No. 8, Bekasi Selatan",
-    distance: 1.0,
-    campusId: 5,
-    price: 1800000,
-    gender: "male",
-    hasAC: false,
-    hasPrivateBathroom: false,
-    hasFurnishedBed: true,
-    hasWifi: true,
-    hasParking: true,
-    images: ["/images/kostbekasi1.jpg"],
-    description: "Kost putra murah dengan lingkungan nyaman.",
-    rules: ["No pets"],
-    facilities: ["Wifi", "Kasur", "Parkir"],
-    benefits: ["Harga terjangkau", "Dekat kampus"],
-    rating: 4.0,
-    reviewCount: 12,
-    latitude: -6.2624,
-    longitude: 106.9902,
-    hasPromotion: false,
-    availability: 4
-  },
-  {
-    id: 7,
-    name: "Kost Hijau Kijang",
-    address: "Jl. Nusantara No. 5, Kijang, Bintan",
-    distance: 0.7,
-    campusId: 6,
-    price: 1000000,
-    gender: "mixed",
-    hasAC: false,
-    hasPrivateBathroom: false,
-    hasFurnishedBed: false,
-    hasWifi: false,
-    hasParking: true,
-    images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"],
-    description: "Kost sederhana campur dengan suasana tenang.",
-    rules: ["No smoking", "No loud music"],
-    facilities: ["Parkir"],
-    benefits: ["Lingkungan asri", "Harga sangat terjangkau"],
-    rating: 3.5,
-    reviewCount: 7,
-    latitude: 0.9013,
-    longitude: 104.5396,
-    hasPromotion: true,
-    availability: 5
-  }
-    ];
+        if (error) {
+          throw new Error('Failed to load accommodations');
+        } else if (data) {
+          setAccommodations(data);
+          setFilteredAccommodations(data)
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    if (campusData) {
-      const campus: Campus = JSON.parse(campusData);
-      setSelectedCampus(campus);
-
-      // Filter kos berdasarkan campusId
-      const filtered = placeholderAccommodations.filter(
-        (acc) => acc.campusId === campus.id
-      );
-
-      setAccommodations(filtered);
-      setFilteredAccommodations(filtered);
-    } else {
-      // fallback jika tidak ada kampus dipilih
-      setAccommodations(placeholderAccommodations);
-      setFilteredAccommodations(placeholderAccommodations);
-    }
-
-    setIsLoading(false);
+    loadAccommodations();
   }, []);
 
   const handleApplyFilters = (filters: any) => {

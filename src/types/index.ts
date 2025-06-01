@@ -48,18 +48,18 @@ export interface Restaurant {
   name: string;
   address: string;
   distance: number;
-  campusId: number;
+  campus_id: number;
   cuisine: string;
-  priceRange: 'low' | 'medium' | 'high';
+  price_range: 'low' | 'medium' | 'high';
   images: string[];
-  menuItems: MenuItem[];
-  openingHours: string;
+  menu_items: MenuItem[];
+  opening_hours: string;
   rating: number;
-  reviewCount: number;
+  review_count: number;
   latitude: number;
   longitude: number;
-  hasPromotion: boolean;
-  promotionDetails?: string;
+  has_promotion: boolean;
+  promotion_details?: string;
 }
 
 export interface MenuItem {

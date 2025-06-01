@@ -28,11 +28,11 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
       <div className="relative">
         <div className="relative h-48 overflow-hidden">
           <img 
-            src={restaurant.images[0]} 
+            src={restaurant.images}
             alt={restaurant.name}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
           />
-          {restaurant.hasPromotion && (
+          {restaurant.has_promotion && (
             <div className="absolute top-3 left-3 bg-secondary-500 text-neutral-900 py-1 px-2 rounded-md text-xs font-medium flex items-center">
               <Tag className="h-3 w-3 mr-1" />
               Promo
@@ -40,11 +40,11 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           )}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-20 opacity-70"></div>
           <div className="absolute bottom-3 left-3">
-            <Rating value={restaurant.rating} count={restaurant.reviewCount} size="sm" />
+            <Rating value={restaurant.rating} count={restaurant.review_count} size="sm" />
           </div>
           <div className="absolute bottom-3 right-3">
             <span className="text-white text-sm font-medium py-0.5 px-2 bg-black bg-opacity-50 rounded">
-              {getPriceRangeSymbol(restaurant.priceRange)}
+              {getPriceRangeSymbol(restaurant.price_range)}
             </span>
           </div>
         </div>
@@ -64,11 +64,11 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           
           <div className="flex items-start mb-4">
             <Clock className="h-4 w-4 text-neutral-500 mr-1 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-neutral-600">{restaurant.openingHours}</p>
+            <p className="text-sm text-neutral-600">{restaurant.opening_hours}</p>
           </div>
           
           {/* Popular menu items */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <h4 className="text-sm font-medium text-neutral-700 mb-2">Popular Menu:</h4>
             <div className="space-y-1">
               {restaurant.menuItems
@@ -87,7 +87,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
                   </div>
                 ))}
             </div>
-          </div>
+          </div> */}
           
           <div className="flex justify-end">
             <Link

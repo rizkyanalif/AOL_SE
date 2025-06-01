@@ -76,8 +76,8 @@ export interface Clinic {
   name: string;
   address: string;
   distance: number;
-  campusId: number;
-  images: string[];
+  campus_id: number;
+  image: string;
   doctors: Doctor[];
   services: string[];
   openingHours: string;

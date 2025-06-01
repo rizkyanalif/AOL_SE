@@ -5,6 +5,7 @@ import AppFooter from '../components/layout/AppFooter';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
 import Button from '../components/ui/Button';
 import { Restaurant, Campus, MenuItem } from '../types';
+import { fetchRestaurants } from '../lib/supabase';
 
 const RestaurantsPage: React.FC = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -12,138 +13,40 @@ const RestaurantsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [activePriceFilter, setActivePriceFilter] = useState<string | null>(null);
   const [activeCuisineFilter, setActiveCuisineFilter] = useState<string | null>(null);
   
   useEffect(() => {
-    // Get selected campus from localStorage
-    const campusData = localStorage.getItem('selectedCampus');
-    if (campusData) {
-      const campus = JSON.parse(campusData);
-      setSelectedCampus(campus);
-      
-      // Placeholder menu items
-      const popularMenuItems1: MenuItem[] = [
-        { id: 1, name: "Nasi Goreng Special", description: "Fried rice with chicken, egg and vegetables", price: 28000, isPopular: true },
-        { id: 2, name: "Ayam Penyet", description: "Smashed fried chicken with sambal", price: 32000, isPopular: true },
-        { id: 3, name: "Es Teh Manis", description: "Sweet iced tea", price: 8000, isPopular: true },
-        { id: 4, name: "Mie Goreng", description: "Fried noodles with egg and vegetables", price: 25000, isPopular: false }
-      ];
-      
-      const popularMenuItems2: MenuItem[] = [
-        { id: 5, name: "Beef Burger", description: "Grilled beef patty with cheese and vegetables", price: 35000, isPopular: true },
-        { id: 6, name: "French Fries", description: "Crispy potato fries", price: 20000, isPopular: true },
-        { id: 7, name: "Iced Latte", description: "Espresso with cold milk", price: 25000, isPopular: true },
-        { id: 8, name: "Chicken Wings", description: "Spicy fried chicken wings", price: 30000, isPopular: false }
-      ];
-      
-      const popularMenuItems3: MenuItem[] = [
-        { id: 9, name: "Bakso Spesial", description: "Beef meatball soup with noodles", price: 30000, isPopular: true },
-        { id: 10, name: "Soto Ayam", description: "Chicken soup with rice and vegetables", price: 28000, isPopular: true },
-        { id: 11, name: "Es Jeruk", description: "Fresh orange juice", price: 12000, isPopular: true },
-        { id: 12, name: "Siomay", description: "Steamed fish dumplings", price: 25000, isPopular: false }
-      ];
-
-      // Data untuk kampus 1
-      const campus1Restaurants: Restaurant[] = [
-        {
-          id: 1,
-          name: "Warung Makan Barokah",
-          address: "Jl. Kebon Jeruk Raya No. 15, Jakarta Barat",
-          distance: 0.2,
-          campusId: 1,
-          cuisine: "Indonesian",
-          priceRange: "low",
-          images: [
-            "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            "https://images.pexels.com/photos/5835353/pexels-photo-5835353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          ],
-          menuItems: popularMenuItems1,
-          openingHours: "08:00 - 21:00",
-          rating: 4.3,
-          reviewCount: 42,
-          latitude: -6.201520,
-          longitude: 106.782952,
-          hasPromotion: true,
-          promotionDetails: "10% off for BINUS students (show your student ID)"
-        },
-        {
-          id: 2,
-          name: "Cafe Corner",
-          address: "Jl. Palmerah Barat No. 8, Jakarta Barat",
-          distance: 0.5,
-          campusId: 1,
-          cuisine: "Western",
-          priceRange: "medium",
-          images: [
-            "https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            "https://images.pexels.com/photos/5835353/pexels-photo-5835353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          ],
-          menuItems: popularMenuItems2,
-          openingHours: "10:00 - 22:00",
-          rating: 4.5,
-          reviewCount: 37,
-          latitude: -6.202162,
-          longitude: 106.785602,
-          hasPromotion: false
-        },
-        {
-          id: 3,
-          name: "Bakso Pak Tono",
-          address: "Jl. Rawa Belong No. 23, Jakarta Barat",
-          distance: 0.8,
-          campusId: 2,
-          cuisine: "Indonesian",
-          priceRange: "low",
-          images: [
-            "https://images.pexels.com/photos/5835353/pexels-photo-5835353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            "https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          ],
-          menuItems: popularMenuItems3,
-          openingHours: "09:00 - 20:00",
-          rating: 4.7,
-          reviewCount: 56,
-          latitude: -6.199962,
-          longitude: 106.783502,
-          hasPromotion: true,
-          promotionDetails: "Free iced tea with any meatball soup order"
+    const loadRestaurant = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const campusData = localStorage.getItem('selectedCampus');
+        let campus: Campus | null = null;
+        if (campusData) {
+          campus = JSON.parse(campusData);
+          setSelectedCampus(campus);
         }
-      ];
-
-      const campus2Restaurants: Restaurant[] = [
-        {
-          id: 4,
-          name: "Sate Madura Pak Joko",
-          address: "Jl. Kijang No. 10, Jakarta Selatan",
-          distance: 0.3,
-          campusId: 3,
-          cuisine: "Indonesian",
-          priceRange: "medium",
-          images: [
-            "https://images.pexels.com/photos/2673353/pexels-photo-2673353.jpeg",
-            "https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg"
-          ],
-          menuItems: [
-            { id: 13, name: "Sate Ayam", description: "Chicken satay with peanut sauce", price: 25000, isPopular: true },
-            { id: 14, name: "Sate Kambing", description: "Goat satay with peanut sauce", price: 30000, isPopular: true }
-          ],
-          openingHours: "10:00 - 22:00",
-          rating: 4.6,
-          reviewCount: 48,
-          latitude: -6.301520,
-          longitude: 106.782952,
-          hasPromotion: false
+        const { data, error } = await fetchRestaurants({campusId: campus?.id});
+        if (error) {
+          throw new Error('Failed to load accommodations');
+        } else if (data) {
+          setRestaurants(data);
+          setFilteredRestaurants(data);
         }
-      ];
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+          
+    };
 
-      // Pilih restoran berdasarkan campusId
-      const allRestaurants = [...campus1Restaurants, ...campus2Restaurants];
-      const filteredByCampus = allRestaurants.filter(r => r.campusId === campus.id);
-      
-      setRestaurants(filteredByCampus);
-      setIsLoading(false);
-    }
+    loadRestaurant();
   }, []);
+
   
   useEffect(() => {
     if (restaurants.length > 0) {
@@ -161,13 +64,13 @@ const RestaurantsPage: React.FC = () => {
         restaurant => 
           restaurant.name.toLowerCase().includes(query) || 
           restaurant.cuisine.toLowerCase().includes(query) ||
-          restaurant.menuItems.some(item => item.name.toLowerCase().includes(query))
+          restaurant.menu_items.some(item => item.name.toLowerCase().includes(query))
       );
     }
     
     // Apply price filter
     if (activePriceFilter) {
-      filtered = filtered.filter(restaurant => restaurant.priceRange === activePriceFilter);
+      filtered = filtered.filter(restaurant => restaurant.price_range === activePriceFilter);
     }
     
     // Apply cuisine filter

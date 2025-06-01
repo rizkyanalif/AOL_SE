@@ -19,160 +19,178 @@ const ClinicsPage: React.FC = () => {
     // Get selected campus from localStorage
     const campusData = localStorage.getItem('selectedCampus');
     if (campusData) {
-      setSelectedCampus(JSON.parse(campusData));
+      const campus = JSON.parse(campusData);
+      setSelectedCampus(campus);
+
+      // Placeholder schedules
+      const weekdaySchedule: Schedule[] = [
+        { day: 'Monday', startTime: '08:00', endTime: '17:00', available: true },
+        { day: 'Tuesday', startTime: '08:00', endTime: '17:00', available: true },
+        { day: 'Wednesday', startTime: '08:00', endTime: '17:00', available: true },
+        { day: 'Thursday', startTime: '08:00', endTime: '17:00', available: true },
+        { day: 'Friday', startTime: '08:00', endTime: '17:00', available: true },
+        { day: 'Saturday', startTime: '09:00', endTime: '14:00', available: true },
+        { day: 'Sunday', startTime: '', endTime: '', available: false },
+      ];
+      
+      const fullWeekSchedule: Schedule[] = [
+        { day: 'Monday', startTime: '08:00', endTime: '20:00', available: true },
+        { day: 'Tuesday', startTime: '08:00', endTime: '20:00', available: true },
+        { day: 'Wednesday', startTime: '08:00', endTime: '20:00', available: true },
+        { day: 'Thursday', startTime: '08:00', endTime: '20:00', available: true },
+        { day: 'Friday', startTime: '08:00', endTime: '20:00', available: true },
+        { day: 'Saturday', startTime: '09:00', endTime: '17:00', available: true },
+        { day: 'Sunday', startTime: '09:00', endTime: '15:00', available: true },
+      ];
+      
+      // Placeholder doctors
+      const doctors1: Doctor[] = [
+        { 
+          id: 1, 
+          name: 'Dr. Andi Wijaya', 
+          specialization: 'General Practitioner',
+          schedule: weekdaySchedule,
+          rating: 4.5,
+        },
+        { 
+          id: 2, 
+          name: 'Dr. Siti Rahayu', 
+          specialization: 'Dentist',
+          schedule: weekdaySchedule,
+          rating: 4.7,
+        }
+      ];
+      
+      const doctors2: Doctor[] = [
+        { 
+          id: 3, 
+          name: 'Dr. Budi Santoso', 
+          specialization: 'General Practitioner',
+          schedule: fullWeekSchedule,
+          rating: 4.3,
+        },
+        { 
+          id: 4, 
+          name: 'Dr. Maya Putri', 
+          specialization: 'Pediatrician',
+          schedule: weekdaySchedule,
+          rating: 4.8,
+        },
+        { 
+          id: 5, 
+          name: 'Dr. Hendra Wijaya', 
+          specialization: 'Dermatologist',
+          schedule: weekdaySchedule,
+          rating: 4.6,
+        }
+      ];
+      
+      const doctors3: Doctor[] = [
+        { 
+          id: 6, 
+          name: 'Dr. Ahmad Hidayat', 
+          specialization: 'General Practitioner',
+          schedule: fullWeekSchedule,
+          rating: 4.4,
+        },
+        { 
+          id: 7, 
+          name: 'Dr. Dewi Suryani', 
+          specialization: 'Ophthalmologist',
+          schedule: weekdaySchedule,
+          rating: 4.9,
+        }
+      ];
+
+      // Data untuk kampus 1
+      const campus1Clinics: Clinic[] = [
+        {
+          id: 1,
+          name: "Klinik Utama Kemanggisan Medical Center",
+          address: "Jl. Kebon Jeruk Raya No. 10, Jakarta Barat",
+          distance: 0.3,
+          campusId: 1,
+          images: [
+            '/images/kost1.jpg'
+          ],
+          doctors: doctors1,
+          services: ["General Check-up", "Dental Care", "Laboratory Tests", "Vaccinations"],
+          openingHours: "08:00 - 17:00 (Mon-Fri), 09:00 - 14:00 (Sat)",
+          hasEmergencyService: false,
+          rating: 4.5,
+          reviewCount: 28,
+          latitude: -6.201820,
+          longitude: 106.782352
+        },
+        {
+          id: 2,
+          name: "Klinik Medika Plus",
+          address: "Jl. Palmerah Barat No. 15, Jakarta Barat",
+          distance: 0.7,
+          campusId: 1,
+          images: [
+            "https://images.pexels.com/photos/668300/pexels-photo-668300.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/3938022/pexels-photo-3938022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          ],
+          doctors: doctors2,
+          services: ["General Check-up", "Pediatric Care", "Dermatology", "Minor Surgery", "Laboratory Tests", "X-Ray"],
+          openingHours: "08:00 - 20:00 (Mon-Fri), 09:00 - 17:00 (Sat-Sun)",
+          hasEmergencyService: true,
+          rating: 4.7,
+          reviewCount: 42,
+          latitude: -6.202462,
+          longitude: 106.786102
+        }
+      ];
+
+      // Data untuk kampus 2
+      const campus2Clinics: Clinic[] = [
+        {
+          id: 3,
+          name: "Klinik Mata Sejahtera",
+          address: "Jl. Rawa Belong No. 35, Jakarta Barat",
+          distance: 1.1,
+          campusId: 2,
+          images: [
+            "https://images.pexels.com/photos/3938022/pexels-photo-3938022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/1692693/pexels-photo-1692693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          ],
+          doctors: doctors3,
+          services: ["Eye Examination", "Eyeglasses Prescription", "Contact Lens Fitting", "Eye Surgery Consultation"],
+          openingHours: "08:00 - 17:00 (Mon-Fri), 09:00 - 14:00 (Sat)",
+          hasEmergencyService: false,
+          rating: 4.8,
+          reviewCount: 35,
+          latitude: -6.199462,
+          longitude: 106.784102
+        }
+      ];
+
+      // Gabungkan semua klinik
+      const allClinics = [...campus1Clinics, ...campus2Clinics];
+      
+      // Filter berdasarkan campusId
+      const filteredByCampus = allClinics.filter(clinic => clinic.campusId === campus.id);
+      
+      setClinics(filteredByCampus);
+      setIsLoading(false);
     }
-    
-    // Placeholder schedules
-    const weekdaySchedule: Schedule[] = [
-      { day: 'Monday', startTime: '08:00', endTime: '17:00', available: true },
-      { day: 'Tuesday', startTime: '08:00', endTime: '17:00', available: true },
-      { day: 'Wednesday', startTime: '08:00', endTime: '17:00', available: true },
-      { day: 'Thursday', startTime: '08:00', endTime: '17:00', available: true },
-      { day: 'Friday', startTime: '08:00', endTime: '17:00', available: true },
-      { day: 'Saturday', startTime: '09:00', endTime: '14:00', available: true },
-      { day: 'Sunday', startTime: '', endTime: '', available: false },
-    ];
-    
-    const fullWeekSchedule: Schedule[] = [
-      { day: 'Monday', startTime: '08:00', endTime: '20:00', available: true },
-      { day: 'Tuesday', startTime: '08:00', endTime: '20:00', available: true },
-      { day: 'Wednesday', startTime: '08:00', endTime: '20:00', available: true },
-      { day: 'Thursday', startTime: '08:00', endTime: '20:00', available: true },
-      { day: 'Friday', startTime: '08:00', endTime: '20:00', available: true },
-      { day: 'Saturday', startTime: '09:00', endTime: '17:00', available: true },
-      { day: 'Sunday', startTime: '09:00', endTime: '15:00', available: true },
-    ];
-    
-    // Placeholder doctors
-    const doctors1: Doctor[] = [
-      { 
-        id: 1, 
-        name: 'Dr. Andi Wijaya', 
-        specialization: 'General Practitioner',
-        schedule: weekdaySchedule,
-        rating: 4.5,
-      },
-      { 
-        id: 2, 
-        name: 'Dr. Siti Rahayu', 
-        specialization: 'Dentist',
-        schedule: weekdaySchedule,
-        rating: 4.7,
-      }
-    ];
-    
-    const doctors2: Doctor[] = [
-      { 
-        id: 3, 
-        name: 'Dr. Budi Santoso', 
-        specialization: 'General Practitioner',
-        schedule: fullWeekSchedule,
-        rating: 4.3,
-      },
-      { 
-        id: 4, 
-        name: 'Dr. Maya Putri', 
-        specialization: 'Pediatrician',
-        schedule: weekdaySchedule,
-        rating: 4.8,
-      },
-      { 
-        id: 5, 
-        name: 'Dr. Hendra Wijaya', 
-        specialization: 'Dermatologist',
-        schedule: weekdaySchedule,
-        rating: 4.6,
-      }
-    ];
-    
-    const doctors3: Doctor[] = [
-      { 
-        id: 6, 
-        name: 'Dr. Ahmad Hidayat', 
-        specialization: 'General Practitioner',
-        schedule: fullWeekSchedule,
-        rating: 4.4,
-      },
-      { 
-        id: 7, 
-        name: 'Dr. Dewi Suryani', 
-        specialization: 'Ophthalmologist',
-        schedule: weekdaySchedule,
-        rating: 4.9,
-      }
-    ];
-    
-    // Placeholder data for development
-    const placeholderClinics: Clinic[] = [
-      {
-        id: 1,
-        name: "Klinik Utama Kemanggisan Medical Center",
-        address: "Jl. Kebon Jeruk Raya No. 10, Jakarta Barat",
-        distance: 0.3,
-        campusId: 1,
-        images: [
-          '/images/kost1.jpg'
-        ],
-        doctors: doctors1,
-        services: ["General Check-up", "Dental Care", "Laboratory Tests", "Vaccinations"],
-        openingHours: "08:00 - 17:00 (Mon-Fri), 09:00 - 14:00 (Sat)",
-        hasEmergencyService: false,
-        rating: 4.5,
-        reviewCount: 28,
-        latitude: -6.201820,
-        longitude: 106.782352
-      },
-      {
-        id: 2,
-        name: "Klinik Medika Plus",
-        address: "Jl. Palmerah Barat No. 15, Jakarta Barat",
-        distance: 0.7,
-        campusId: 1,
-        images: [
-          "https://images.pexels.com/photos/668300/pexels-photo-668300.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-          "https://images.pexels.com/photos/3938022/pexels-photo-3938022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        ],
-        doctors: doctors2,
-        services: ["General Check-up", "Pediatric Care", "Dermatology", "Minor Surgery", "Laboratory Tests", "X-Ray"],
-        openingHours: "08:00 - 20:00 (Mon-Fri), 09:00 - 17:00 (Sat-Sun)",
-        hasEmergencyService: true,
-        rating: 4.7,
-        reviewCount: 42,
-        latitude: -6.202462,
-        longitude: 106.786102
-      },
-      {
-        id: 3,
-        name: "Klinik Mata Sejahtera",
-        address: "Jl. Rawa Belong No. 35, Jakarta Barat",
-        distance: 1.1,
-        campusId: 1,
-        images: [
-          "https://images.pexels.com/photos/3938022/pexels-photo-3938022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-          "https://images.pexels.com/photos/1692693/pexels-photo-1692693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        ],
-        doctors: doctors3,
-        services: ["Eye Examination", "Eyeglasses Prescription", "Contact Lens Fitting", "Eye Surgery Consultation"],
-        openingHours: "08:00 - 17:00 (Mon-Fri), 09:00 - 14:00 (Sat)",
-        hasEmergencyService: false,
-        rating: 4.8,
-        reviewCount: 35,
-        latitude: -6.199462,
-        longitude: 106.784102
-      }
-    ];
-    
-    setClinics(placeholderClinics);
-    setFilteredClinics(placeholderClinics);
-    setIsLoading(false);
   }, []);
   
   useEffect(() => {
-    applyFilters();
-  }, [searchQuery, activeSpecialtyFilter, showEmergencyOnly]);
+    if (clinics.length > 0) {
+      applyFilters();
+    }
+  }, [searchQuery, activeSpecialtyFilter, showEmergencyOnly, clinics]);
   
   const applyFilters = () => {
     let filtered = [...clinics];
+    
+    // Jika tidak ada filter yang aktif, tampilkan semua klinik
+    if (!searchQuery && !activeSpecialtyFilter && !showEmergencyOnly) {
+      setFilteredClinics(filtered);
+      return;
+    }
     
     // Apply search filter
     if (searchQuery) {

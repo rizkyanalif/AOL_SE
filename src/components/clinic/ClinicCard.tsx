@@ -15,11 +15,11 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
       <div className="relative">
         <div className="relative h-48 overflow-hidden">
           <img 
-            src={clinic.images[0]} 
+            src={clinic.image} 
             alt={clinic.name}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
           />
-          {clinic.hasEmergencyService && (
+          {clinic.has_emergency_service && (
             <div className="absolute top-3 left-3 bg-red-500 text-white py-1 px-2 rounded-md text-xs font-medium flex items-center">
               <AlertCircle className="h-3 w-3 mr-1" />
               24/7 Emergency
@@ -27,7 +27,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
           )}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-20 opacity-70"></div>
           <div className="absolute bottom-3 left-3">
-            <Rating value={clinic.rating} count={clinic.reviewCount} size="sm" />
+            <Rating value={clinic.rating} count={clinic.review_count} size="sm" />
           </div>
         </div>
         
@@ -41,7 +41,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
           
           <div className="flex items-start mb-4">
             <Clock className="h-4 w-4 text-neutral-500 mr-1 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-neutral-600">{clinic.openingHours}</p>
+            <p className="text-sm text-neutral-600">{clinic.opening_hours}</p>
           </div>
           
           {/* Services */}
@@ -65,7 +65,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
           </div>
           
           {/* Doctors */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <h4 className="text-sm font-medium text-neutral-700 mb-2">Available Doctors:</h4>
             <div className="space-y-1">
               {clinic.doctors.slice(0, 2).map(doctor => (
@@ -74,6 +74,21 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
                   <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-700 rounded">
                     {doctor.specialization}
                   </span>
+                </div>
+              ))}
+              {clinic.doctors.length > 2 && (
+                <div className="text-sm text-neutral-500">
+                  +{clinic.doctors.length - 2} more doctors
+                </div>
+              )}
+            </div>
+          </div> */}
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-neutral-700 mb-2">Available Doctors:</h4>
+            <div className="space-y-1">
+              {clinic.doctors.map(doctor => (
+                <div key={doctor} className="flex justify-between items-center text-sm">
+                  <span className="text-neutral-600">{doctor}</span>
                 </div>
               ))}
               {clinic.doctors.length > 2 && (

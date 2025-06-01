@@ -15,7 +15,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
       <div className="relative">
         <div className="relative h-48 overflow-hidden">
           <img 
-            src={clinic.images[0]} 
+            src={clinic.image} 
             alt={clinic.name}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
           />

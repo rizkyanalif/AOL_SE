@@ -24,7 +24,7 @@ const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) 
             alt={accommodation.name}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
           />
-          {accommodation.hasPromotion && (
+          {accommodation.has_promotion && (
             <div className="absolute top-3 left-3 bg-secondary-500 text-neutral-900 py-1 px-2 rounded-md text-xs font-medium flex items-center">
               <Tag className="h-3 w-3 mr-1" />
               Promo
@@ -32,7 +32,7 @@ const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) 
           )}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-20 opacity-70"></div>
           <div className="absolute bottom-3 left-3">
-            <Rating value={accommodation.rating} count={accommodation.reviewCount} size="sm" />
+            <Rating value={accommodation.rating} count={accommodation.review_count} size="sm" />
           </div>
         </div>
         
@@ -69,25 +69,25 @@ const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) 
                 Mixed Gender
               </span>
             )}
-            {accommodation.hasAC && (
+            {accommodation.has_ac && (
               <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
                 <Fan className="h-3 w-3 mr-1" />
                 AC
               </span>
             )}
-            {accommodation.hasPrivateBathroom && (
+            {accommodation.has_private_bathroom && (
               <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
                 <Bath className="h-3 w-3 mr-1" />
                 Private Bathroom
               </span>
             )}
-            {accommodation.hasFurnishedBed && (
+            {accommodation.has_furnished_bed && (
               <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
                 <BedDouble className="h-3 w-3 mr-1" />
                 Furnished
               </span>
             )}
-            {accommodation.hasWifi && (
+            {accommodation.has_wifi && (
               <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
                 <Wifi className="h-3 w-3 mr-1" />
                 WiFi

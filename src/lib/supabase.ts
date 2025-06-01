@@ -31,7 +31,7 @@ export const fetchAccommodations = async (filters: any = {}) => {
   let query = supabase.from('accommodations').select('*');
   
   if (filters.campusId) {
-    query = query.eq('id', filters.campusId);
+    query = query.eq('campus_id', filters.campusId);
   }
   
   if (filters.gender) {

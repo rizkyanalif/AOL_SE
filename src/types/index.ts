@@ -80,10 +80,10 @@ export interface Clinic {
   image: string;
   doctors: Doctor[];
   services: string[];
-  openingHours: string;
-  hasEmergencyService: boolean;
+  opening_hours: string;
+  has_emergency_service: boolean;
   rating: number;
-  reviewCount: number;
+  review_count: number;
   latitude: number;
   longitude: number;
 }

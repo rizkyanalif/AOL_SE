@@ -65,7 +65,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
           </div>
           
           {/* Doctors */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <h4 className="text-sm font-medium text-neutral-700 mb-2">Available Doctors:</h4>
             <div className="space-y-1">
               {clinic.doctors.slice(0, 2).map(doctor => (
@@ -74,6 +74,21 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
                   <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-700 rounded">
                     {doctor.specialization}
                   </span>
+                </div>
+              ))}
+              {clinic.doctors.length > 2 && (
+                <div className="text-sm text-neutral-500">
+                  +{clinic.doctors.length - 2} more doctors
+                </div>
+              )}
+            </div>
+          </div> */}
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-neutral-700 mb-2">Available Doctors:</h4>
+            <div className="space-y-1">
+              {clinic.doctors.map(doctor => (
+                <div key={doctor} className="flex justify-between items-center text-sm">
+                  <span className="text-neutral-600">{doctor}</span>
                 </div>
               ))}
               {clinic.doctors.length > 2 && (

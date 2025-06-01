@@ -63,10 +63,10 @@ const AccommodationsPage: React.FC = () => {
 
     if (filters.facilities && filters.facilities.length > 0) {
       filtered = filtered.filter(acc => {
-        if (filters.facilities.includes('ac') && !acc.hasAC) return false;
-        if (filters.facilities.includes('privateBathroom') && !acc.hasPrivateBathroom) return false;
-        if (filters.facilities.includes('wifi') && !acc.hasWifi) return false;
-        if (filters.facilities.includes('furnishedBed') && !acc.hasFurnishedBed) return false;
+        if (filters.facilities.includes('ac') && !acc.has_ac) return false;
+        if (filters.facilities.includes('privateBathroom') && !acc.has_private_bathroom) return false;
+        if (filters.facilities.includes('wifi') && !acc.has_wifi) return false;
+        if (filters.facilities.includes('furnishedBed') && !acc.has_furnished_bed) return false;
         return true;
       });
     }

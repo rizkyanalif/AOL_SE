@@ -21,25 +21,25 @@ export interface Accommodation {
   name: string;
   address: string;
   distance: number;
-  campusId: number;
+  campus_id: number;
   price: number;
   gender: 'male' | 'female' | 'mixed';
-  hasAC: boolean;
-  hasPrivateBathroom: boolean;
-  hasFurnishedBed: boolean;
-  hasWifi: boolean;
-  hasParking: boolean;
+  has_ac: boolean;
+  has_private_bathroom: boolean;
+  has_furnished_bed: boolean;
+  has_wifi: boolean;
+  has_parking: boolean;
   images: string[];
   description: string;
   rules: string[];
   facilities: string[];
   benefits: string[];
   rating: number;
-  reviewCount: number;
+  review_count: number;
   latitude: number;
   longitude: number;
-  hasPromotion: boolean;
-  promotionDetails?: string;
+  has_promotion: boolean;
+  promotion_details?: string;
   availability: number;
 }
 

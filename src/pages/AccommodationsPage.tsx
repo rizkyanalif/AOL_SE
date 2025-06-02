@@ -16,7 +16,7 @@ const AccommodationsPage: React.FC = () => {
   const [filteredAccommodations, setFilteredAccommodations] = useState<Accommodation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedKos, setSelectedKos] = useState<Accommodation | null>(null);
+  const [selectedAccommodation, setSelectedAccommodation] = useState<Accommodation | null>(null);
   const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
 
   useEffect(() => {
@@ -82,12 +82,12 @@ const AccommodationsPage: React.FC = () => {
     setFilteredAccommodations(accommodations);
   };
 
-  const handleKosClick = (kos: Accommodation) => {
-    setSelectedKos(kos);
+  const handleAccommodationClick = (kos: Accommodation) => {
+    setSelectedAccommodation(kos);
   };
 
-  const closeKosDetail = () => {
-    setSelectedKos(null);
+  const closeAccommodationDetail = () => {
+    setSelectedAccommodation(null);
   };
 
   return (
@@ -105,7 +105,7 @@ const AccommodationsPage: React.FC = () => {
               </p>
             </div>
           )}
-
+          
           {/* Filters */}
           <AccommodationFilters
             onApplyFilters={handleApplyFilters}
@@ -120,7 +120,7 @@ const AccommodationsPage: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredAccommodations.map(accommodation => (
-                <div onClick={() => handleKosClick(accommodation)}>
+                <div onClick={() => handleAccommodationClick(accommodation)}>
                   <AccommodationCard
                   key={accommodation.id}
                   accommodation={accommodation}/>
@@ -135,7 +135,9 @@ const AccommodationsPage: React.FC = () => {
           )}
         </div>
       </main>
-        {selectedKos && (
+
+        //view accommodation detail
+        {selectedAccommodation && (
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -143,9 +145,9 @@ const AccommodationsPage: React.FC = () => {
                 className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-auto z-[999]"
               >
                 <div className="sticky top-0 bg-white p-4 border-b border-gray-200 flex justify-between items-center z-10">
-                  <h2 className="text-xl font-bold">{selectedKos.name}</h2>
+                  <h2 className="text-xl font-bold">{selectedAccommodation.name}</h2>
                   <button
-                    onClick={closeKosDetail}
+                    onClick={closeAccommodationDetail}
                     className="p-2 rounded-full hover:bg-gray-100"
                   >
                     <X className="h-5 w-5" />
@@ -155,8 +157,8 @@ const AccommodationsPage: React.FC = () => {
                 <div className="p-6">
                    <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
                     <img
-                      src={selectedKos.images[0]}
-                      alt={selectedKos.name}
+                      src={selectedAccommodation.images[0]}
+                      alt={selectedAccommodation.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -165,42 +167,42 @@ const AccommodationsPage: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex items-center mb-2">
                         <MapPin className="h-5 w-5 text-gray-500 mr-2" />
-                        <span>{selectedKos.address}</span>
+                        <span>{selectedAccommodation.address}</span>
                       </div>
                       <div className="flex items-center">
                         <Star className="h-5 w-5 text-yellow-400 fill-yellow-400 mr-2" />
-                        {/* <Rating value={selectedKos.rating} /> */}
-                        <span className="ml-2">{selectedKos.rating}/5</span>
+                        {/* <Rating value={selectedAccommodation.rating} /> */}
+                        <span className="ml-2">{selectedAccommodation.rating}/5</span>
                       </div>
                     </div>
                     
                     <div className="text-right">
                       <p className="text-2xl font-bold text-primary">
-                        Rp {selectedKos.price}
+                        Rp {selectedAccommodation.price}
                       </p>
-                      <p className="text-gray-500">per {selectedKos.price}</p>
+                      <p className="text-gray-500">per {selectedAccommodation.price}</p>
                     </div>
                   </div>
                   
-                  {selectedKos.has_promotion && (
+                  {selectedAccommodation.has_promotion && (
                     <div className="mb-6 p-3 bg-accent bg-opacity-10 rounded-md border border-accent border-opacity-20">
                       <div className="flex items-center">
                         <Tag className="h-5 w-5 text-accent mr-2" />
-                        <p className="font-medium text-accent">{selectedKos.promotion_details}</p>
+                        <p className="font-medium text-accent">{selectedAccommodation.promotion_details}</p>
                       </div>
                     </div>
                   )}
                   
                   <div className="mb-6">
                     <h3 className="text-lg font-semibold mb-2">Description</h3>
-                    <p className="text-gray-700">{selectedKos.description}</p>
+                    <p className="text-gray-700">{selectedAccommodation.description}</p>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Facilities</h3>
                       <ul className="space-y-2">
-                        {selectedKos.facilities.map((facility, index) => (
+                        {selectedAccommodation.facilities.map((facility, index) => (
                           <li key={index} className="flex items-center">
                             <div className="h-2 w-2 rounded-full bg-primary mr-2"></div>
                             <span>{facility}</span>
@@ -212,7 +214,7 @@ const AccommodationsPage: React.FC = () => {
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Rules</h3>
                       <ul className="space-y-2">
-                        {selectedKos.rules.map((rule, index) => (
+                        {selectedAccommodation.rules.map((rule, index) => (
                           <li key={index} className="flex items-center">
                             <div className="h-2 w-2 rounded-full bg-error mr-2"></div>
                             <span>{rule}</span>
@@ -224,7 +226,7 @@ const AccommodationsPage: React.FC = () => {
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Benefits</h3>
                       <ul className="space-y-2">
-                        {selectedKos.benefits.map((benefit, index) => (
+                        {selectedAccommodation.benefits.map((benefit, index) => (
                           <li key={index} className="flex items-center">
                             <div className="h-2 w-2 rounded-full bg-success mr-2"></div>
                             <span>{benefit}</span>
@@ -243,7 +245,7 @@ const AccommodationsPage: React.FC = () => {
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <Button variant="outline" onClick={closeKosDetail}>
+                    <Button variant="outline" onClick={closeAccommodationDetail}>
                       Close
                     </Button>
                     <Button>

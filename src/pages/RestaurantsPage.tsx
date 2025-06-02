@@ -264,6 +264,18 @@ const RestaurantsPage: React.FC = () => {
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-2">Menu</h3>
                   
+                      <h4 className="font-medium text-gray-800 mb-3 pb-1 border-b">{}</h4>
+                      <div className="space-y-4">
+                        {selectedRestaurant.menu.map(item => (
+                          <div key={selectedRestaurant.id} className="flex justify-between">
+                            <div>
+                              <h5 className="font-medium">{item}</h5>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    
+
                   {/* {Object.entries(groupedMenu(selectedRestaurant.menu)).map(([category, items]) => (
                     <div key={category} className="mb-6">
                       <h4 className="font-medium text-gray-800 mb-3 pb-1 border-b">{category}</h4>

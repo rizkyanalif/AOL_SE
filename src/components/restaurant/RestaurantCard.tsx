@@ -7,6 +7,7 @@ import { Restaurant } from '../../types';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
+  onViewDetail?: (restaurant: Restaurant) => void; 
 }
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
@@ -90,12 +91,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           </div> */}
           
           <div className="flex justify-end">
-            <Link
-              to={`/restaurants/${restaurant.id}`}
+            <button
+              onClick={() => onViewDetail?.(restaurant)}
               className="inline-flex items-center px-3 py-1.5 border border-primary-500 text-primary-600 rounded-md text-sm font-medium hover:bg-primary-50 transition-colors"
             >
-              View Menu
-            </Link>
+              View Details
+            </button>
           </div>
         </div>
       </div>

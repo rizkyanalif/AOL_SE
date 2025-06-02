@@ -109,7 +109,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
             </button>
             
             <Link
-              to={`/clinics/${clinic.id}/book`}
+              // to={`/clinics/${clinic.id}/book`}
               className="inline-flex items-center px-3 py-1.5 bg-primary-500 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
             >
               Book Appointment

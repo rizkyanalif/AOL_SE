@@ -19,8 +19,9 @@ const AccommodationsPage: React.FC = () => {
   const [selectedKos, setSelectedKos] = useState<Accommodation | null>(null);
   const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
   const [showChatBox, setShowChatBox] = useState(false);
-  const [chatMessages, setChatMessages] = useState<string[]>([]);
-  const [currentMessage, setCurrentMessage] = useState<string>('');
+  const [chatMessages, setChatMessages] = useState<Record<string, string[]>>({});
+  const [currentMessage, setCurrentMessage] = useState('');
+
 
 
   useEffect(() => {
@@ -88,7 +89,10 @@ const AccommodationsPage: React.FC = () => {
 
   const handleKosClick = (kos: Accommodation) => {
     setSelectedKos(kos);
-  };
+    setShowChatBox(false);
+    setCurrentMessage('');
+};
+
 
   const closeKosDetail = () => {
   setSelectedKos(null);
@@ -99,11 +103,18 @@ const AccommodationsPage: React.FC = () => {
   setShowChatBox(true);
 };
 const handleSendMessage = () => {
-  if (currentMessage.trim() === '') return;
+  if (!selectedKos || currentMessage.trim() === '') return;
 
-  setChatMessages([...chatMessages, currentMessage]);
+  const kosId = selectedKos.id;
+  const updatedMessages = {
+    ...chatMessages,
+    [kosId]: [...(chatMessages[kosId] || []), currentMessage]
+  };
+
+  setChatMessages(updatedMessages);
   setCurrentMessage('');
 };
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -274,16 +285,16 @@ const handleSendMessage = () => {
                 </button>
               </div>
               <div className="h-40 overflow-y-auto bg-white rounded p-2 mb-2 border border-gray-200">
-                  {chatMessages.length === 0 ? (
-                    <p className="text-sm text-gray-500 italic">Start typing your message...</p>
-                  ) : (
-                    chatMessages.map((msg, idx) => (
-                      <div key={idx} className="mb-1 text-sm text-gray-800">
-                        <span className="font-medium">You:</span> {msg}
-                      </div>
-                    ))
-                  )}
-                </div>
+                {(chatMessages[selectedKos?.id]?.length ?? 0) === 0 ? (
+                  <p className="text-sm text-gray-500 italic">Start typing your message...</p>
+                ) : (
+                  chatMessages[selectedKos.id].map((msg, idx) => (
+                    <div key={idx} className="mb-1 text-sm text-gray-800">
+                      <span className="font-medium">You:</span> {msg}
+                    </div>
+                  ))
+                )}
+              </div>
               <div className="flex">
                 <div className="flex">
                     <input

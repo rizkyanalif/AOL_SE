@@ -120,7 +120,7 @@ const DashboardPage: React.FC = () => {
         </div>
       </main>
       
-      <AppFooter />
+      {/* <AppFooter /> */}
     </div>
   );
 };

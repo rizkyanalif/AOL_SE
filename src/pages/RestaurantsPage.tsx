@@ -302,7 +302,7 @@ const RestaurantsPage: React.FC = () => {
             </motion.div>
           </div>
         )}
-      <AppFooter />
+      {/* <AppFooter /> */}
     </div>
   );
 };

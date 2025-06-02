@@ -12,7 +12,7 @@ const CampusSelectionPage: React.FC = () => {
         <CampusSelector />
       </main>
       
-      <AppFooter />
+      {/* <AppFooter /> */}
     </div>
   );
 };

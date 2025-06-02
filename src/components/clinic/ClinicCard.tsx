@@ -100,7 +100,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
             </div>
           </div>
           
-          <div className="flex justify-endr">
+          <div className="flex justify-end">
             <button
               onClick={() => onViewDetail?.(clinic)}
               className="inline-flex items-center px-3 py-1.5 border border-primary-500 text-primary-600 rounded-md text-sm font-medium hover:bg-primary-50 transition-colors"

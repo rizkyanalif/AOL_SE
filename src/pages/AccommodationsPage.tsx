@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Filter, MapPin } from 'lucide-react';
 import AppHeader from '../components/layout/AppHeader';
-import AppFooter from '../components/layout/AppFooter';
+//import AppFooter from '../components/layout/AppFooter';
 import AccommodationFilters from '../components/accommodation/AccommodationFilters';
 import AccommodationCard from '../components/accommodation/AccommodationCard';
 import { Accommodation, Campus } from '../types';
@@ -254,7 +254,7 @@ const AccommodationsPage: React.FC = () => {
             </div>
           )}
 
-      <AppFooter />
+    {/* <AppFooter /> */}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const PasswordRecoveryPage: React.FC = () => {
         <PasswordRecoveryForm />
       </main>
       
-      <AppFooter />
+      {/* <AppFooter /> */}
     </div>
   );
 };

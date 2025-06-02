@@ -480,7 +480,7 @@ const ClinicsPage: React.FC = () => {
           </div>
         )}
       
-      <AppFooter />
+      {/* <AppFooter /> */}
     </div>
   );
 };

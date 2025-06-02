@@ -12,7 +12,7 @@ const SignUpPage: React.FC = () => {
         <SignUpForm />
       </main>
       
-      <AppFooter />
+      {/* <AppFooter /> */}
     </div>
   );
 };

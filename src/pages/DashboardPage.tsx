@@ -90,9 +90,6 @@ const DashboardPage: React.FC = () => {
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-semibold mb-2">New Student Special</h3>
                   <p className="mb-4">Get 10% off your first month's rent at participating accommodations.</p>
-                  <button className="bg-white text-primary-600 px-4 py-2 rounded-md font-medium hover:bg-neutral-100 transition-colors">
-                    View Details
-                  </button>
                 </div>
               </div>
               
@@ -100,9 +97,6 @@ const DashboardPage: React.FC = () => {
                 <div className="p-6 text-neutral-900">
                   <h3 className="text-xl font-semibold mb-2">Lunch Discount</h3>
                   <p className="mb-4">Enjoy 15% off lunch menu items at selected restaurants near campus.</p>
-                  <button className="bg-white text-secondary-600 px-4 py-2 rounded-md font-medium hover:bg-neutral-100 transition-colors">
-                    View Details
-                  </button>
                 </div>
               </div>
               
@@ -110,9 +104,6 @@ const DashboardPage: React.FC = () => {
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-semibold mb-2">Health Check Package</h3>
                   <p className="mb-4">Special student rates on comprehensive health check packages.</p>
-                  <button className="bg-white text-red-600 px-4 py-2 rounded-md font-medium hover:bg-neutral-100 transition-colors">
-                    View Details
-                  </button>
                 </div>
               </div>
             </div>

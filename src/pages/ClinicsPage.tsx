@@ -224,7 +224,7 @@ const ClinicsPage: React.FC = () => {
           // clinic.doctors.some(doctor => 
           //   doctor.name.toLowerCase().includes(query)// || 
             // doctor.specialization.toLowerCase().includes(query)
-          )
+          // )
       );
     }
     

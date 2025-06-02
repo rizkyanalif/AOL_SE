@@ -69,8 +69,8 @@ const RestaurantsPage: React.FC = () => {
       filtered = filtered.filter(
         restaurant => 
           restaurant.name.toLowerCase().includes(query) || 
-          restaurant.cuisine.toLowerCase().includes(query) ||
-          restaurant.menu_items.some(item => item.name.toLowerCase().includes(query))
+          restaurant.cuisine.toLowerCase().includes(query) // ||
+          // restaurant.menu_items.some(item => item.name.toLowerCase().includes(query))
       );
     }
     

@@ -6,6 +6,9 @@ import ClinicCard from '../components/clinic/ClinicCard';
 import Button from '../components/ui/Button';
 import { Clinic, Campus, Doctor, Schedule } from '../types';
 import { fetchClinics } from '../lib/supabase';
+import { motion } from 'framer-motion';
+import { X, Heart, Tag, Star, Menu } from 'lucide-react';
+import Rating from '../components/ui/Rating';
 
 const ClinicsPage: React.FC = () => {
   const [clinics, setClinics] = useState<Clinic[]>([]);
@@ -16,6 +19,7 @@ const ClinicsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeSpecialtyFilter, setActiveSpecialtyFilter] = useState<string | null>(null);
   const [showEmergencyOnly, setShowEmergencyOnly] = useState(false);
+  const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
   
   useEffect(() => {
       const loadClinic = async () => {
@@ -248,6 +252,14 @@ const ClinicsPage: React.FC = () => {
     clinics.flatMap(clinic => clinic.doctors.map(doctor => doctor.specialization))
   )];
   
+  const handleClinicClick = (clinic: Clinic) => {
+    setSelectedClinic(clinic);
+  };
+
+  const closeClinicDetail = () => {
+    setSelectedClinic(null);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <AppHeader />
@@ -318,10 +330,12 @@ const ClinicsPage: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredClinics.map(clinic => (
-                <ClinicCard 
-                  key={clinic.id} 
-                  clinic={clinic} 
-                />
+                <div onClick={() => handleClinicClick(clinic)}>
+                  <ClinicCard 
+                    key={clinic.id}
+                    clinic={clinic}
+                  />
+                </div>
               ))}
               
               {filteredClinics.length === 0 && (
@@ -333,6 +347,138 @@ const ClinicsPage: React.FC = () => {
           )}
         </div>
       </main>
+
+      {selectedClinic && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-auto"
+            >
+              <div className="sticky top-0 bg-white p-4 border-b border-gray-200 flex justify-between items-center z-10">
+                <h2 className="text-xl font-bold">{selectedClinic.name}</h2>
+                <button
+                  onClick={closeClinicDetail}
+                  className="p-2 rounded-full hover:bg-gray-100"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              
+              <div className="p-6">
+                <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
+                  <img
+                    src={selectedClinic.image}
+                    alt={selectedClinic.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="flex flex-wrap gap-4 mb-6">
+                  <div className="flex-1">
+                    <div className="flex items-center mb-2">
+                      <MapPin className="h-5 w-5 text-gray-500 mr-2" />
+                      <span>{selectedClinic.address}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Star className="h-5 w-5 text-yellow-400 fill-yellow-400 mr-2" />
+                      <Rating value={selectedClinic.rating} />
+                      <span className="ml-2">{selectedClinic.rating}/5</span>
+                    </div>
+                  </div>
+                  
+                  {/* {selectedClinic.emergencyService && (
+                    <div className="flex items-center">
+                      <Badge variant="error" className="bg-error">
+                        24/7 Emergency Services
+                      </Badge>
+                    </div>
+                  )} */}
+                </div>
+                
+                {/* <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Description</h3>
+                  <p className="text-gray-700">{selectedClinic.description}</p>
+                </div> */}
+                
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Services</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="border border-error border-opacity-40 rounded-md p-3 bg-error bg-opacity-5">
+                        <ul className="space-y-1">
+                          {selectedClinic.services.map(service => (
+                              <div key={service} className="flex justify-between items-center text-sm">
+                                <span className="text-neutral-600">{service}</span>
+                              </div>
+                            ))}
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+                
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Doctors</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedClinic.doctors.map(doctors => (
+                              <div key={doctors} className="flex justify-between items-center text-sm">
+                                <span className="text-neutral-600">{doctors}</span>
+                              </div>
+                            ))}
+                    {/* {selectedClinic.doctors.map((doctor) => (
+                      <Card 
+                        key={doctor.id} 
+                        onClick={() => handleDoctorClick(doctor)}
+                        className="hover:shadow-md transition-shadow duration-200"
+                      >
+                        <CardContent className="p-4 flex">
+                          <div className="w-16 h-16 rounded-full overflow-hidden mr-4 flex-shrink-0">
+                            {doctor.image ? (
+                              <img 
+                                src={doctor.image} 
+                                alt={doctor.name} 
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <Stethoscope className="h-8 w-8 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h4 className="font-medium">{doctor.name}</h4>
+                            <p className="text-sm text-gray-600">{doctor.specialization}</p>
+                            <div className="flex items-center mt-1">
+                              <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                              <span className="text-sm ml-1">{doctor.rating}</span>
+                            </div>
+                            <p className="text-xs text-primary mt-1">View schedule &amp; book</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))} */}
+                  </div>
+                </div>
+                
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Location</h3>
+                  <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <MapPin className="h-8 w-8 text-gray-400 mr-2" />
+                    <span className="text-gray-500">Map View (Placeholder)</span>
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <Button variant="outline" onClick={closeClinicDetail}>
+                    Close
+                  </Button>
+                  <Button>
+                    Contact Clinic
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
       
       <AppFooter />
     </div>

@@ -109,7 +109,7 @@ const RestaurantsPage: React.FC = () => {
           
           {/* Search and Filters */}
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-neutral-800 mb-4">Restaurants</h2>
+            <h2 className="text-xl font-semibold text-neutral-800 mb-4">Restaurantsa</h2>
             
             <div className="flex flex-col md:flex-row items-start gap-4 mb-4">
               {/* Search */}

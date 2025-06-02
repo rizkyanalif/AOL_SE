@@ -100,20 +100,13 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic }) => {
             </div>
           </div>
           
-          <div className="flex justify-between items-center">
+          <div className="flex justify-endr">
             <button
               onClick={() => onViewDetail?.(clinic)}
               className="inline-flex items-center px-3 py-1.5 border border-primary-500 text-primary-600 rounded-md text-sm font-medium hover:bg-primary-50 transition-colors"
             >
               View Details
             </button>
-            
-            <Link
-              // to={`/clinics/${clinic.id}/book`}
-              className="inline-flex items-center px-3 py-1.5 bg-primary-500 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
-            >
-              Book Appointment
-            </Link>
           </div>
         </div>
       </div>

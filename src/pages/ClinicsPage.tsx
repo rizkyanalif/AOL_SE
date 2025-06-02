@@ -219,11 +219,11 @@ const ClinicsPage: React.FC = () => {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
         clinic => 
-          clinic.name.toLowerCase().includes(query) || 
-          clinic.services.some(service => service.toLowerCase().includes(query)) ||
-          clinic.doctors.some(doctor => 
-            doctor.name.toLowerCase().includes(query) || 
-            doctor.specialization.toLowerCase().includes(query)
+          clinic.name.toLowerCase().includes(query)// || 
+          // clinic.services.some(service => service.toLowerCase().includes(query)) ||
+          // clinic.doctors.some(doctor => 
+          //   doctor.name.toLowerCase().includes(query)// || 
+            // doctor.specialization.toLowerCase().includes(query)
           )
       );
     }
@@ -288,7 +288,7 @@ const ClinicsPage: React.FC = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search clinics, doctors, or services..."
+                  placeholder="Search clinics"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"

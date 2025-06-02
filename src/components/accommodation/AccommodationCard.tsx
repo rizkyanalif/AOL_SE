@@ -7,6 +7,7 @@ import { Accommodation } from '../../types';
 
 interface AccommodationCardProps {
   accommodation: Accommodation;
+  onViewDetail?: (accommodation: Accommodation) => void; 
 }
 
 const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) => {
@@ -103,12 +104,13 @@ const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) 
             <div className="text-sm text-neutral-500">
               <span className="font-medium text-primary-600">{accommodation.availability}</span> rooms available
             </div>
-            <Link
-              to={`/accommodations/${accommodation.id}`}
+            <button
+              onClick={() => onViewDetail?.(accommodation)}
               className="inline-flex items-center px-3 py-1.5 border border-primary-500 text-primary-600 rounded-md text-sm font-medium hover:bg-primary-50 transition-colors"
             >
               View Details
-            </Link>
+            </button>
+
           </div>
         </div>
       </div>

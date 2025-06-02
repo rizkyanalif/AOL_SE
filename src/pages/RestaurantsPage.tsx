@@ -6,6 +6,11 @@ import RestaurantCard from '../components/restaurant/RestaurantCard';
 import Button from '../components/ui/Button';
 import { Restaurant, Campus, MenuItem } from '../types';
 import { fetchRestaurants } from '../lib/supabase';
+import { X, Heart, Tag, Star, Menu } from 'lucide-react';
+import Rating from '../components/ui/Rating';
+import { motion } from 'framer-motion';
+
+
 
 const RestaurantsPage: React.FC = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -15,6 +20,7 @@ const RestaurantsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [activePriceFilter, setActivePriceFilter] = useState<string | null>(null);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [activeCuisineFilter, setActiveCuisineFilter] = useState<string | null>(null);
   
   useEffect(() => {
@@ -91,6 +97,14 @@ const RestaurantsPage: React.FC = () => {
   
   const cuisines = [...new Set(restaurants.map(restaurant => restaurant.cuisine))];
   
+  const handleRestaurantClick = (place: Restaurant) => {
+    setSelectedRestaurant(place);
+  };
+
+  const closeRestaurantDetail = () => {
+    setSelectedRestaurant(null);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <AppHeader />
@@ -109,7 +123,7 @@ const RestaurantsPage: React.FC = () => {
           
           {/* Search and Filters */}
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-neutral-800 mb-4">Restaurantsa</h2>
+            <h2 className="text-xl font-semibold text-neutral-800 mb-4">Restaurant</h2>
             
             <div className="flex flex-col md:flex-row items-start gap-4 mb-4">
               {/* Search */}
@@ -176,10 +190,12 @@ const RestaurantsPage: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredRestaurants.map(restaurant => (
-                <RestaurantCard 
-                  key={restaurant.id} 
-                  restaurant={restaurant} 
-                />
+                <div onClick={() => handleRestaurantClick(restaurant)}>
+                  <RestaurantCard 
+                    key={restaurant.id} 
+                    restaurant={restaurant} 
+                  />
+                </div>
               ))}
               
               {filteredRestaurants.length === 0 && (
@@ -191,7 +207,101 @@ const RestaurantsPage: React.FC = () => {
           )}
         </div>
       </main>
-      
+      {selectedRestaurant && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-auto"
+            >
+              <div className="sticky top-0 bg-white p-4 border-b border-gray-200 flex justify-between items-center z-10">
+                <h2 className="text-xl font-bold">{selectedRestaurant.name}</h2>
+                <button
+                  onClick={closeRestaurantDetail}
+                  className="p-2 rounded-full hover:bg-gray-100"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              
+              <div className="p-6">
+                <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
+                  <img
+                    src={selectedRestaurant.images}
+                    alt={selectedRestaurant.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="flex flex-wrap gap-4 mb-6">
+                  <div className="flex-1">
+                    <div className="flex items-center mb-2">
+                      <MapPin className="h-5 w-5 text-gray-500 mr-2" />
+                      <span>{selectedRestaurant.address}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Star className="h-5 w-5 text-yellow-400 fill-yellow-400 mr-2" />
+                      <Rating value={selectedRestaurant.rating} />
+                      <span className="ml-2">{selectedRestaurant.rating}/5</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {selectedRestaurant.has_promotion && selectedRestaurant.promotion_details && (
+                  <div className="mb-6 p-3 bg-accent bg-opacity-10 rounded-md border border-accent border-opacity-20">
+                    <div className="flex items-center">
+                      <Tag className="h-5 w-5 text-accent mr-2" />
+                      <p className="font-medium text-accent">{selectedRestaurant.promotion_details}</p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Description</h3>
+                  <p className="text-gray-700">{selectedRestaurant.description}</p>
+                </div> */}
+                
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Menu</h3>
+                  
+                  {/* {Object.entries(groupedMenu(selectedRestaurant.menu)).map(([category, items]) => (
+                    <div key={category} className="mb-6">
+                      <h4 className="font-medium text-gray-800 mb-3 pb-1 border-b">{category}</h4>
+                      <div className="space-y-4">
+                        {items.map(item => (
+                          <div key={item.id} className="flex justify-between">
+                            <div>
+                              <h5 className="font-medium">{item.name}</h5>
+                              <p className="text-sm text-gray-600">{item.description}</p>
+                            </div>
+                            <p className="font-medium">Rp {formatPrice(item.price)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))} */}
+                </div>
+                
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">Location</h3>
+                  <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <MapPin className="h-8 w-8 text-gray-400 mr-2" />
+                    <span className="text-gray-500">Map View (Placeholder)</span>
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <Button variant="outline" onClick={closeRestaurantDetail}>
+                    Close
+                  </Button>
+                  <Button>
+                    Get Directions
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
       <AppFooter />
     </div>
   );

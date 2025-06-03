@@ -175,9 +175,13 @@ const AccommodationsPage: React.FC = () => {
                     
                     <div className="text-right">
                       <p className="text-2xl font-bold text-primary">
-                        Rp {selectedKos.price}
+                        {new Intl.NumberFormat('id-ID', { 
+                          style: 'currency', 
+                          currency: 'IDR',
+                          maximumFractionDigits: 0
+                        }).format(selectedKos.price)}
                       </p>
-                      <p className="text-gray-500">per {selectedKos.price}</p>
+                      <p className="text-gray-500">per month</p>
                     </div>
                   </div>
                   

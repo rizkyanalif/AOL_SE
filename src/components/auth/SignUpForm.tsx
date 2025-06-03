@@ -31,8 +31,8 @@ const SignUpForm: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-        // Show confirmation message and redirect to verification page
-        navigate('/verification', { 
+        // Show confirmation message and redirect to sign in page
+        navigate('/signin', { 
           state: { email: data.email }
         });
       }

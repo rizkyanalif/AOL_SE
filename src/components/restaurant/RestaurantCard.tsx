@@ -60,7 +60,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           
           <div className="flex items-start mb-2">
             <MapPin className="h-4 w-4 text-neutral-500 mr-1 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-neutral-600">{restaurant.address}</p>
+            <p className="text-sm text-neutral-600">{restaurant.distance} km from campus</p>
           </div>
           
           <div className="flex items-start mb-4">

@@ -51,7 +51,7 @@ const AccommodationCard: React.FC<AccommodationCardProps> = ({ accommodation }) 
           
           <div className="flex items-start mb-3">
             <MapPin className="h-4 w-4 text-neutral-500 mr-1 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-neutral-600">{accommodation.address}</p>
+            <p className="text-sm text-neutral-600">{accommodation.distance} km from campus</p>
           </div>
           
           <div className="flex flex-wrap gap-2 mb-3">

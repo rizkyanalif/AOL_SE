@@ -20,6 +20,9 @@ const ClinicsPage: React.FC = () => {
   const [activeSpecialtyFilter, setActiveSpecialtyFilter] = useState<string | null>(null);
   const [showEmergencyOnly, setShowEmergencyOnly] = useState(false);
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
+  const [showChatBox, setShowChatBox] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Record<string, string[]>>({});  
+  const [currentMessage, setCurrentMessage] = useState('');
   
   useEffect(() => {
       const loadClinic = async () => {
@@ -254,10 +257,29 @@ const ClinicsPage: React.FC = () => {
   
   const handleClinicClick = (clinic: Clinic) => {
     setSelectedClinic(clinic);
+    setShowChatBox(false);
+    setCurrentMessage('');
   };
 
   const closeClinicDetail = () => {
     setSelectedClinic(null);
+    setShowChatBox(false);
+  };
+  const handleContactOwner = () => {
+  setShowChatBox(true);
+  };
+
+  const handleSendMessage = () => {
+  if (!selectedKos || currentMessage.trim() === '') return;
+
+  const kosId = selectedKos.id;
+  const updatedMessages = {
+    ...chatMessages,
+    [kosId]: [...(chatMessages[kosId] || []), currentMessage]
+  };
+
+  setChatMessages(updatedMessages);
+  setCurrentMessage('');
   };
 
   return (
@@ -471,11 +493,50 @@ const ClinicsPage: React.FC = () => {
                   <Button variant="outline" onClick={closeClinicDetail}>
                     Close
                   </Button>
-                  <Button>
+                  <Button onClick={handleContactOwner}>
                     Contact Clinic
                   </Button>
                 </div>
               </div>
+              {showChatBox && (
+                  <div className="mt-6 border border-primary-200 rounded-lg p-4 bg-primary-50">
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-semibold text-primary">Chat with Clinic</h4>
+                      <button onClick={() => setShowChatBox(false)} className="text-sm text-primary-600 hover:underline">
+                        Close Chat
+                      </button>
+                    </div>
+                    <div className="h-40 overflow-y-auto bg-white rounded p-2 mb-2 border border-gray-200">
+                      {(chatMessages[selectedClinic?.id]?.length ?? 0) === 0 ? (
+                        <p className="text-sm text-gray-500 italic">Start typing your message...</p>
+                      ) : (
+                        chatMessages[selectedClinic.id].map((msg, idx) => (
+                          <div key={idx} className="mb-1 text-sm text-gray-800">
+                            <span className="font-medium">You:</span> {msg}
+                          </div>
+                        ))
+                      )}
+                    </div>
+                    <div className="flex">
+                      <div className="flex">
+                          <input
+                            type="text"
+                            value={currentMessage}
+                            onChange={(e) => setCurrentMessage(e.target.value)}
+                            placeholder="Type your message..."
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none"
+                            onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                          />
+                          <button
+                            onClick={handleSendMessage}
+                            className="bg-primary text-white px-4 rounded-r-md hover:bg-primary-600"
+                          >
+                            Send
+                          </button>
+                        </div>
+                    </div>
+                  </div>
+                )}
             </motion.div>
           </div>
         )}

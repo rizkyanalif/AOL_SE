@@ -18,6 +18,9 @@ const AccommodationsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedKos, setSelectedKos] = useState<Accommodation | null>(null);
   const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
+  const [showChatBox, setShowChatBox] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Record<string, string[]>>({});
+  const [currentMessage, setCurrentMessage] = useState('');
 
   useEffect(() => {
     const loadAccommodations = async () => {
@@ -84,10 +87,28 @@ const AccommodationsPage: React.FC = () => {
 
   const handleKosClick = (kos: Accommodation) => {
     setSelectedKos(kos);
+    setShowChatBox(false);
+    setCurrentMessage('');
   };
 
   const closeKosDetail = () => {
     setSelectedKos(null);
+    setShowChatBox(false);
+  };
+  const handleContactOwner = () => {
+  setShowChatBox(true);
+  };
+  const handleSendMessage = () => {
+  if (!selectedKos || currentMessage.trim() === '') return;
+
+  const kosId = selectedKos.id;
+  const updatedMessages = {
+    ...chatMessages,
+    [kosId]: [...(chatMessages[kosId] || []), currentMessage]
+  };
+
+  setChatMessages(updatedMessages);
+  setCurrentMessage('');
   };
 
   return (
@@ -249,11 +270,50 @@ const AccommodationsPage: React.FC = () => {
                     <Button variant="outline" onClick={closeKosDetail}>
                       Close
                     </Button>
-                    <Button>
+                    <Button onClick={handleContactOwner}>
                       Contact Owner
                     </Button>
                   </div>
                 </div>
+                {showChatBox && (
+                  <div className="mt-6 border border-primary-200 rounded-lg p-4 bg-primary-50">
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-semibold text-primary">Chat with Owner</h4>
+                      <button onClick={() => setShowChatBox(false)} className="text-sm text-primary-600 hover:underline">
+                        Close Chat
+                      </button>
+                    </div>
+                    <div className="h-40 overflow-y-auto bg-white rounded p-2 mb-2 border border-gray-200">
+                        {(chatMessages[selectedKos?.id]?.length ?? 0) === 0 ? (
+                          <p className="text-sm text-gray-500 italic">Start typing your message...</p>
+                        ) : (
+                          chatMessages[selectedKos.id].map((msg, idx) => (
+                            <div key={idx} className="mb-1 text-sm text-gray-800">
+                              <span className="font-medium">You:</span> {msg}
+                            </div>
+                          ))
+                        )}
+                    </div>
+                    <div className="flex">
+                      <div className="flex">
+                          <input
+                            type="text"
+                            value={currentMessage}
+                            onChange={(e) => setCurrentMessage(e.target.value)}
+                            placeholder="Type your message..."
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none"
+                            onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                          />
+                          <button
+                            onClick={handleSendMessage}
+                            className="bg-primary text-white px-4 rounded-r-md hover:bg-primary-600"
+                          >
+                            Send
+                          </button>
+                        </div>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             </div>
           )}

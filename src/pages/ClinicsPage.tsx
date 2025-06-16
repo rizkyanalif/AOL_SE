@@ -270,12 +270,12 @@ const ClinicsPage: React.FC = () => {
   };
 
   const handleSendMessage = () => {
-  if (!selectedKos || currentMessage.trim() === '') return;
+  if (!selectedClinic || currentMessage.trim() === '') return;
 
-  const kosId = selectedKos.id;
+  const clinicId = selectedClinic.id;
   const updatedMessages = {
     ...chatMessages,
-    [kosId]: [...(chatMessages[kosId] || []), currentMessage]
+    [clinicId]: [...(chatMessages[clinicId] || []), currentMessage]
   };
 
   setChatMessages(updatedMessages);

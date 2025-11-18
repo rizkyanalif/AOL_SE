@@ -116,20 +116,20 @@ const AppHeader: React.FC = () => {
                     className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
                   >
                     <div className="py-1">
-                      <Link
+                      {/* <Link
                         to="/profile"
                         className="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                       >
                         <User className="h-4 w-4 mr-2 text-neutral-500" />
                         Your Profile
-                      </Link>
-                      <Link
+                      </Link> */}
+                      {/* <Link
                         to="/settings"
                         className="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                       >
                         <Settings className="h-4 w-4 mr-2 text-neutral-500" />
                         Settings
-                      </Link>
+                      </Link> */}
                       <button
                         onClick={handleSignOut}
                         className="flex w-full items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
@@ -201,19 +201,19 @@ const AppHeader: React.FC = () => {
                 </Link>
               ))}
               
-              <Link
+              {/* <Link
                 to="/profile"
                 className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary-700"
               >
                 Your Profile
-              </Link>
+              </Link> */}
               
-              <Link
+              {/* <Link
                 to="/settings"
                 className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary-700"
               >
                 Settings
-              </Link>
+              </Link> */}
               
               <button
                 onClick={handleSignOut}
